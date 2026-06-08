@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbot - Premium AI Companion</title>
+    
+    <!-- Google Fonts: Outfit & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- Background Animated Rain Effect -->
+    <div class="rain-container" id="rainContainer"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar Dashboard -->
+        <aside class="dashboard-panel">
+            <div class="brand-section">
+                <div class="logo-wrapper">
+                    <i class="fa-solid fa-cloud-showers-heavy rain-icon-glow"></i>
+                </div>
+                <div>
+                    <h1>Rainbot</h1>
+                    <p class="tagline">Flowing like water, thinking like light</p>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-indicator">
+                    <span class="status-dot pulsing" id="statusDot"></span>
+                    <span class="status-text" id="statusText">Connecting backend...</span>
+                </div>
+                <div class="system-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Model</span>
+                        <span class="stat-value">Gemini 2.5 Flash</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Messages</span>
+                        <span class="stat-value" id="msgCount">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <h3>Controls</h3>
+                <button class="control-btn" id="clearChatBtn" title="Clear chat history">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Clear Conversation</span>
+                </button>
+                <button class="control-btn" id="themeToggleBtn" title="Toggle color mood">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Change Ambience</span>
+                </button>
+            </div>
+            
+            <div class="dashboard-footer">
+                <p>&copy; 2026 Rainbot AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-panel">
+            <header class="chat-header">
+                <div class="bot-info">
+                    <div class="bot-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h2>Rainbot Assistant</h2>
+                        <div class="online-indicator">Active & Ready</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <i class="fa-solid fa-circle-info info-icon" title="About Rainbot"></i>
+                </div>
+            </header>
+
+            <!-- Message Area -->
+            <section class="messages-container" id="messagesContainer">
+                <!-- Welcome Message -->
+                <div class="message-wrapper model-message-wrapper animate-in">
+                    <div class="message-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="message-bubble">
+                        <div class="message-text">
+                            Hello! I am <strong>Rainbot</strong>, your advanced AI companion. Let's create something beautiful or solve complex problems together today. How can I help you flow through your tasks?
+                        </div>
+                        <div class="message-time" id="welcomeTime">11:15 AM</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Suggestions -->
+            <div class="suggestions-wrapper" id="suggestionsWrapper">
+                <div class="suggestion-pill" data-prompt="Write a cozy, relaxing poem about rain.">
+                    <i class="fa-solid fa-pen-nib"></i> Write a rain poem
+                </div>
+                <div class="suggestion-pill" data-prompt="Explain APIs and endpoints in simple terms using a water analogy.">
+                    <i class="fa-solid fa-droplet"></i> Explain APIs
+                </div>
+                <div class="suggestion-pill" data-prompt="Help me write a Python script that scrapes headlines from a website.">
+                    <i class="fa-solid fa-code"></i> Python scraper script
+                </div>
+                <div class="suggestion-pill" data-prompt="Tell me a witty science joke.">
+                    <i class="fa-solid fa-face-smile"></i> Tech/Science joke
+                </div>
+            </div>
+
+            <!-- Typing indicator (hidden by default) -->
+            <div class="typing-indicator-container hidden" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <span class="typing-label">Rainbot is thinking...</span>
+            </div>
+
+            <!-- Input Form -->
+            <footer class="chat-input-area">
+                <form id="chatForm" class="input-form">
+                    <input type="text" id="userInput" placeholder="Type a message or ask anything..." required autocomplete="off">
+                    <button type="submit" class="send-btn" id="sendBtn" title="Send message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modal for About info -->
+    <div class="modal-overlay hidden" id="infoModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>About Rainbot</h3>
+                <i class="fa-solid fa-xmark modal-close" id="closeModal"></i>
+            </div>
+            <div class="modal-body">
+                <p><strong>Rainbot</strong> is a modern AI Chatbot interface built with FastAPI, HTML, Vanilla CSS, and JavaScript.</p>
+                <p>It leverages the Google Gemini 2.5 Flash model to provide quick, insightful, and helpful responses in real-time.</p>
+                <p>Designed with a premium glassmorphic aesthetic to elevate the conversational interface experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link JS -->
+    <script src="/script.js"></script>
+</body>
+</html>
